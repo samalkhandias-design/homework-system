@@ -2,8 +2,7 @@
 export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-
+import { getSupabase } from '@/lib/supabase'
 type Assignment = {
   id: string; title: string; description: string;
   period: string; due_date: string; is_completed: boolean
@@ -18,6 +17,7 @@ export default function StudentDashboard() {
   const [periods, setPeriods] = useState<string[]>([])
 
   useEffect(() => {
+    const supabase = getSupabase()
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return router.push('/login')
@@ -43,11 +43,13 @@ export default function StudentDashboard() {
   }, [])
 
   const handleToggleComplete = async (id: string, current: boolean) => {
+    const supabase = getSupabase()
     await supabase.from('assignments').update({ is_completed: !current }).eq('id', id)
     setAssignments(prev => prev.map(a => a.id === id ? {...a, is_completed: !current} : a))
   }
 
   const handleLogout = async () => {
+    const supabase = getSupabase()
     await supabase.auth.signOut()
     router.push('/')
   }

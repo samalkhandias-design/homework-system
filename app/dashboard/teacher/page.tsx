@@ -2,8 +2,7 @@
 export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-
+import { getSupabase } from '@/lib/supabase'
 type Student = { id: string; full_name: string }
 type Assignment = {
   id: string; title: string; description: string;
@@ -23,6 +22,7 @@ export default function TeacherDashboard() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    const supabase = getSupabase()
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return router.push('/login')
@@ -50,6 +50,7 @@ export default function TeacherDashboard() {
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const supabase = getSupabase()
     e.preventDefault()
     setLoading(true)
     const { data: { user } } = await supabase.auth.getUser()
@@ -79,6 +80,7 @@ export default function TeacherDashboard() {
   }
 
   const handleLogout = async () => {
+    const supabase = getSupabase()
     await supabase.auth.signOut()
     router.push('/')
   }
