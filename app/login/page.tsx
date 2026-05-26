@@ -14,8 +14,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
-    const supabase = createClient()
+  
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: form.email,
