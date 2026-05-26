@@ -14,8 +14,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
-    const supabase = createClient()
+
 
     const { error } = await supabase.auth.signUp({
       email: form.email,

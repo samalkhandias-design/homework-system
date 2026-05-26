@@ -1,7 +1,8 @@
 'use client'
+export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
 type Assignment = {
   id: string; title: string; description: string;
@@ -10,7 +11,7 @@ type Assignment = {
 
 export default function StudentDashboard() {
   const router = useRouter()
-  const supabase = createClient()
+
   const [assignments, setAssignments] = useState<Assignment[]>([])
   const [studentName, setStudentName] = useState('')
   const [selectedPeriod, setSelectedPeriod] = useState('Все')
